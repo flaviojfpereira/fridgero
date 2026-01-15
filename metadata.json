@@ -1,0 +1,7 @@
+{
+  "name": "Fridgero",
+  "description": "Turn your chaos into dinner. No shopping required. Analyze your fridge photos and generate recipes in seconds.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
