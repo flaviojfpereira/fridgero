@@ -46,6 +46,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose,
 
         <div className="flex gap-2 mb-6">
           <input 
+            id="staple-input"
+            name="staple-input"
             type="text" 
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}

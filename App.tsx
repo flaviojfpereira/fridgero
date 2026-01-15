@@ -62,7 +62,7 @@ function App() {
       const result = await generateRecipes(state.photos, state.extraText, state.selectedVibe, state.staples);
       setState(prev => ({ ...prev, isLoading: false, result }));
     } catch (err: any) {
-      setState(prev => ({ ...prev, isLoading: false, error: err.message }));
+      setState(prev => ({ ...prev, isLoading: false, error: err.message || "Something went wrong. Please check your API key." }));
     }
   };
 
@@ -170,6 +170,13 @@ function App() {
               </p>
             </div>
 
+            {state.error && (
+              <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center gap-3">
+                <AlertTriangle className="text-red-500 w-5 h-5" />
+                <span className="text-red-200 font-medium text-sm">{state.error}</span>
+              </div>
+            )}
+
             <section>
               <div className="flex items-center justify-between mb-4">
                  <h3 className="text-gray-400 text-xs tracking-widest uppercase font-bold">Provisions ({state.photos.length}/{MAX_PHOTOS})</h3>
@@ -189,16 +196,18 @@ function App() {
                 ))}
                 
                 {state.photos.length < MAX_PHOTOS && (
-                  <label className="aspect-[3/4] flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/10 hover:border-white/30 hover:bg-white/5 transition-all cursor-pointer group">
+                  <label htmlFor="photo-upload" className="aspect-[3/4] flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/10 hover:border-white/30 hover:bg-white/5 transition-all cursor-pointer group">
                     <Camera className="w-10 h-10 text-gray-600 mb-2 group-hover:text-white transition-colors" />
                     <span className="text-xs text-gray-600 font-bold uppercase tracking-tighter">Snap</span>
-                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
+                    <input id="photo-upload" name="photo-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
                   </label>
                 )}
               </div>
               
               <div className="mt-8">
                 <input
+                  id="extra-text"
+                  name="extra-text"
                   type="text"
                   value={state.extraText}
                   onChange={(e) => setState(prev => ({ ...prev, extraText: e.target.value }))}
