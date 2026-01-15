@@ -1,9 +1,6 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { Vibe, AnalysisResult, Recipe } from '../types';
 
-// Initialize the API client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const RECIPE_SCHEMA: Schema = {
   type: Type.OBJECT,
   properties: {
@@ -68,6 +65,13 @@ export const generateRecipes = async (
   vibe: Vibe,
   staples: string[]
 ): Promise<AnalysisResult> => {
+  // Initialize right before use to avoid top-level crashes and ensure we have the latest env vars
+  if (!process.env.API_KEY) {
+    throw new Error("Missing API_KEY environment variable. Please set it in your hosting provider's dashboard.");
+  }
+  
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
   const staplesString = staples.join(", ");
   const systemPrompt = `You are a world-class Michelin-star chef and expert nutritionist. 
   Your goal is to create 5 high-end, extremely detailed recipes based ONLY on the ingredients visible in the user's photos and their invisible pantry: ${staplesString}.
