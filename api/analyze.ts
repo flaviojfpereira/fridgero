@@ -114,7 +114,7 @@ export default async function handler(req: any, res: any) {
     parts.push({ text: `Analyze these photos and create a culinary experience. Additional context: ${extraText}` });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-3-flash-preview',
       contents: { parts },
       config: {
         systemInstruction: systemPrompt,
